@@ -1,42 +1,119 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Página Inicial</title>
-</head>
-<body>
+<?php
 
+$n = fgets(STDIN);
+
+$n = preg_replace('/\D/', '', $n);
+
+echo $n;
+
+//$n = (int)$n;
+
+if(strlen($n) !== 11){
+
+    echo "CPF inválido!";
+
+}else{
+
+    $primeiro_digito = null;
+    $segundo_digito = null;
+    $soma1 = 0;
+
+    $multiplicador = 10;
+
+        //PRIMEIRO LOOP
+
+        for($i = 0; $i < 9; $i++){
     
-</body>
-</html>
+            $soma1+= intval($n[$i]) * $multiplicador;
 
-<!-- 
+            echo "\n--" . $soma1 . "--\n";
 
-    ================HIERARQUIA DOS DIRETÓRIOS DO SISTEMA================
+            $multiplicador--;
+        }
 
-    assets- assets são nossos recursos de folhas de estilo, scripts, fontes e imagens.
+        if(($soma1 % 11) < 2){
+
+            $calc = $soma1 % 11;
+
+            $digito_inteiro = intval($n[9]);
+
+            if($calc == $digito_inteiro){
+
+                $primeiro_digito = true;
+                echo "\nPrimeiro digito bateu : $calc\n";
+            }else{
+
+                echo "Primeiro digito não bateu: $calc\n";
+            }
+
+        }else{
+
+            $calc = 11 - ($soma1 % 11);
+
+
+            $digito_inteiro = intval($n[9]);        
+
+            if($calc == $digito_inteiro){
+
+                $primeiro_digito = true;
+                echo "\nPrimeiro digito bateu : $calc\n";
+
+            }else{
+
+                echo "Primeiro digito não bateu: $calc\n";
+            }
+        }
+
+        $soma2 = 0;
+        $multiplicador = 11;
+
+        //SEGUNDO LOOP
+
+        for($i = 0; $i < 10; $i++){
     
-        private- Recursos que não podem aparecer no navegador.
-        
-        public- Recursos que devem aparecer no navegador.
-            css- Contém todos os arquivos CSS.
-            images- Contém todos os arquivos de imagem.
-            js- COntémtodos os arquivos JavaScript.
-            
-    classe- Contem todas as classes que serão usadas no sistema.
+            $soma2+= intval($n[$i]) * $multiplicador;
 
-    interfaces- Onde ficam as interfaces das classes.
+            $multiplicador--;
+        }
 
-    services- Contém todo o backend do sistema / Serviços usados pelo front-end.
+        if(($soma2 % 11) < 2){
 
-    utils- Arquivos/Classes que contém códigos que serão usados muitas vezes Exemplo o Util Math do Java.
+            $calc = $soma2 % 11;
 
-    vendor- Contém todas as bibliotecas que podem ser utilizadas no sistema.
+            $digito_inteiro = intval($n[10]);
 
-    views- Contém todo o frontend do sistema.
-        admin- Contém as páginas que só o administrador pode acessar.
-        components- Componentes visuais que podem ser aplicados nas páginas web.
-        usuario- Contém as páginas que todos os usuário podem acessar.
-        
--->
+            if($calc == $digito_inteiro){
+
+                $segundo_digito = true;
+                echo "\nSegundo digito bateu : $calc\n";
+
+            }else{
+
+                echo "Segundo digito não bateu: $calc\n";
+            }
+
+        }else{
+
+            $calc = 11 - ($soma2 % 11);
+
+            $digito_inteiro = intval($n[10]);
+
+            if($calc == $digito_inteiro){
+
+                $segundo_digito = true;
+                echo "\nSegundo digito bateu: $calc\n";
+
+            }else{
+
+                echo "Segundo digito não bateu: $calc\n";
+            }
+        }
+
+        if($primeiro_digito == true && $segundo_digito == true){
+
+            echo "\nO CPF É VÁLIDO!\n";
+
+        }
+    
+}
+

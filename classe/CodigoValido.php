@@ -22,6 +22,11 @@ class CodigoValido{
 
             return $codigo_limpo;
 
+        }elseif(strlen($codigo_limpo) == 13){
+
+            echo "Este código é um ISBN-13";
+
+        
         }else{
 
             echo "Código inválido! <br>";
