@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace classe;
 
@@ -18,6 +18,9 @@ private function __construct(){
     $this->conexao = mysqli_connect($this->banco_servidor, $this->banco_usuario, $this->banco_senha, $this->banco_nome);
     if (!$this->conexao) {
         die("Erro ao conectar ao banco de dados: " . mysqli_connect_error());
+    }else{
+
+        //echo "Conexão bem-sucedida!";
     }
 }
 
