@@ -6,35 +6,32 @@ class CodigoValido{
 
     private $codigo;
 
-    public function verificarCodigo($codigo){
+    private function verificarCodigo($codigo){
 
-        $this->codigo = preg_replace('/\D/', '', $codigo);
+        // $this->codigo = preg_replace('/\D/', '', $codigo);
+
+        $this->codigo = preg_replace('/[^0-9X]/i', '', $codigo);
+
+
+        echo "Código depois da formatação: $this->codigo <br>";
 
         if(strlen($this->codigo) == 11){
 
-            echo "Este código é um CPF <br>";
-
-            return $$this->codigo;
-
+            return "CPF";
+            
         }else if(strlen($this->codigo) == 14){
 
-            echo "Este código é um CNPJ <br>";
-
-            return $this->codigo;
+            return "CNPJ";
 
         }elseif(strlen($this->codigo) == 10){
 
-            echo "Este código é um ISBN-10";
+            return "ISBN-10";
 
         }elseif(strlen($this->codigo) == 13){
 
-            echo "Este código é um ISBN-13";    
-
-            return $this->codigo;
+            return "ISBN-13";
 
         }else{
-
-            echo "Código inválido! <br>";
 
             return false;
 
@@ -42,230 +39,320 @@ class CodigoValido{
     } 
 
     public function validarCPF($codigo){
-    
-    $primeiro_digito = null;
-    $segundo_digito = null;
-    $soma1 = 0;
 
-    $multiplicador = 10;
+        $cod = $this->verificarCodigo($codigo);
 
-        $cpf = $this->codigo;
+        if($cod == "CPF"){
 
-        for($i = 0; $i < 9; $i++){
-    
-            $soma1+= intval($cpf[$i]) * $multiplicador;
+            $primeiro_digito = null;
+            $segundo_digito = null;
+            $soma1 = 0;
 
-            //echo "\n--" . $soma1 . "--\n";
+            $multiplicador = 10;
 
-            $multiplicador--;
-        }
+            $codigo = $this->codigo;
 
-        if(($soma1 % 11) < 2){
+            for($i = 0; $i < 9; $i++){
+        
+                $soma1+= intval($codigo[$i]) * $multiplicador;
 
-            $calc = $soma1 % 11;
-
-            $digito_inteiro = intval($cpf[9]);//Pegar o índice
-
-            if($calc == $digito_inteiro){
-
-                $primeiro_digito = true;
-                echo "\nPrimeiro digito bateu : $calc\n";
-            }else{
-
-                echo "Primeiro digito não bateu: $calc\n";
+                $multiplicador--;
             }
 
-        }else{
+            if(($soma1 % 11) < 2){//Acredito que o método do CPF só ficou maior por causa do cálculo dos valores menores do que 2.
 
-            $calc = 11 - ($soma1 % 11);
+                $calc = 0;
 
-            $digito_inteiro = intval($cpf[9]);        
+                $digito_inteiro = intval($codigo[9]);
 
-            if($calc == $digito_inteiro){
+                if($digito_inteiro == $calc){
 
-                $primeiro_digito = true;
-                echo "\nPrimeiro digito bateu : $calc\n";
+                    $primeiro_digito = true;
+                    //echo "\nPrimeiro digito bateu : $calc\n";
+                }else{
+
+                    // echo "Primeiro digito não bateu: $calc\n";
+                }
 
             }else{
 
-                echo "Primeiro digito não bateu: $calc\n";
+                $calc = 11 - ($soma1 % 11);
+
+                $digito_inteiro = intval($codigo[9]);//Penúltimo digito 
+
+                if($calc == $digito_inteiro){
+
+                    // echo "\nPrimeiro digito bateu : $calc\n";
+                    $primeiro_digito = true;
+                    
+
+                }else{
+
+                    // echo "Primeiro digito não bateu: $calc\n";
+                }
             }
-        }
 
-        $soma2 = 0;
-        $multiplicador = 11;
+            $soma2 = 0;
+            $multiplicador = 11;
 
-        //SEGUNDO LOOP
+            //SEGUNDO LOOP
 
-        for($i = 0; $i < 10; $i++){
-    
-            $soma2+= intval($cpf[$i]) * $multiplicador;
+            for($i = 0; $i < 10; $i++){
+        
+                $soma2+= intval($codigo[$i]) * $multiplicador;
 
-            $multiplicador--;
-        }
+                $multiplicador--;
+            }
 
-        if(($soma2 % 11) < 2){
+            if(($soma2 % 11) < 2){
 
-            $calc = $soma2 % 11;
+                $calc = 0;
 
-            $digito_inteiro = intval($cpf[10]);
+                $digito_inteiro = intval($codigo[10]);
 
-            if($calc == $digito_inteiro){
+                if($calc == $digito_inteiro){
 
-                $segundo_digito = true;
-                echo "\nSegundo digito bateu : $calc\n";
+                    $segundo_digito = true;
+                    // echo "\nSegundo digito bateu : $calc\n";
+
+                }else{
+
+                    // echo "Segundo digito não bateu: $calc\n";
+                }
 
             }else{
 
-                echo "Segundo digito não bateu: $calc\n";
+                $calc = 11 - ($soma2 % 11);
+
+                $digito_inteiro = intval($codigo[10]);//último digito
+
+                if($calc == $digito_inteiro){
+
+                    $segundo_digito = true;
+                    // echo "\nSegundo digito bateu: $calc\n";
+
+                }else{
+
+                    // echo "Segundo digito não bateu: $calc\n";
+                }
             }
 
-        }else{
+            if($primeiro_digito == true && $segundo_digito == true){
 
-            $calc = 11 - ($soma2 % 11);
+                // echo "\nO CPF É VÁLIDO!\n";
 
-            $digito_inteiro = intval($cpf[10]);
-
-            if($calc == $digito_inteiro){
-
-                $segundo_digito = true;
-                echo "\nSegundo digito bateu: $calc\n";
+                return true;
 
             }else{
 
-                echo "Segundo digito não bateu: $calc\n";
+                // echo "\nO CPF É INVÁLIDO!\n";
+
+                return false;
             }
-        }
 
-        if($primeiro_digito == true && $segundo_digito == true){
+        }elseif($cod == false){
 
-            echo "\nO CPF É VÁLIDO!\n";
+            return false;
 
         }
     }
 
     public function validarCNPJ($codigo){
 
-        $cnpj = $this->codigo;
+        $cod = $this->verificarCodigo($codigo);
+    
+        if($cod == "CNPJ"){
+            
+            $primeiro_digito = null;
+            $segundo_digito = null;
+    
+            $codigo = $this->codigo;
 
-        $mult1 = [5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2];
-        $mult2 = [6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2];
+            echo "1° Código dentro do método: $codigo <br>";
 
-        $soma = 0;
+    
+            $mult1 = [5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2];
+            $mult2 = [6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2];
+    
+            $soma1 = 0;
+            echo "Loop 1 <br>";
 
-        for($i = 0; $i < 12; $i++){
+            for($i = 0; $i < 13; $i++){
 
-            $soma += intval($cnpj[$i]) * $mult1[$i];
+                $soma1 += intval($codigo[$i]) * $mult1[$i];
+                echo $codigo[$i];
 
-        }
+            }
 
-        // echo "A soma 1 ficou: $soma\n\n";
+            echo "<br>";
 
-        $mod1 = 11 - ($soma % 11);
+            echo "2° Código dentro do método: $codigo <br>";
 
-        // echo "O primeiro digito verificador é: $mod1\n\n";
+            $mod1 = 11 - ($soma1 % 11);
 
-        $soma = 0;
+            echo "Módulo 1 = $mod1 <br>";
 
-        for($i = 0; $i < 13; $i++){
+            if($mod1 < 2 || $mod1 >= 10){
 
-            $soma += intval($cnpj[$i]) * $mult2[$i];
+                $mod1 = 0;
+            }
+    
+            $soma2 = 0;
 
-        }
+            echo "Loop 2 <br>";
 
-        // echo "A soma 2 ficou: $soma\n\n";
+            for($i = 0; $i < 14; $i++){
 
-        $mod2 = 11 - ($soma % 11);
+                $soma2 += intval($codigo[$i]) * $mult2[$i];
+                echo $codigo[$i];
+            }
 
-        // echo "O segundo digito verificador é: $mod2\n\n";
+            echo "<br>";
 
-        if($mod1 == $cnpj[12]){
+            echo "3° Código dentro do método: $codigo <br>";
 
-            echo "O PRIMEIRO NÚMERO VERIFICADOR É VÁLIDO!\n";
+            $mod2 = 11 - ($soma2 % 11);
 
-        }else{
+            echo "Módulo 2 = $mod2 <br>";
 
-            echo "O PRIMEIRO NÚMERO VERIFICADOR É INVÁLIDO!\n";
+            if($mod2 < 2 || $mod2 >= 10){
 
-        }
+                $mod2 = 0;
+            }
 
-        if($mod2 == $cnpj[13]){
+            for($i = 0; $i < 14; $i++){
 
-            echo "O SEGUNDO NÚMERO VERIFICADOR É VÁLIDO!\n";
+                echo "Posicao $i: " . $codigo[$i] . "<br>";
 
-        }else{
 
-            echo "O SEGUNDO NÚMERO VERIFICADOR É INVÁLIDO!\n";
+            }
 
+            if($mod1 == intval($codigo[12])){
+
+                $primeiro_digito = true;
+
+            }else{
+
+                $primeiro_digito = false;
+
+            }
+    
+            if($mod2 == intval($codigo[13])){
+
+                $segundo_digito = true;
+
+            }else{
+
+                $segundo_digito = false;
+
+            }
+    
+            if($primeiro_digito == true && $segundo_digito == true){
+
+                return true;
+
+            } else {
+
+                return false;
+
+            }
+
+        } elseif($cod == false) {
+
+            return false;
         }
     }
 
     public function validarISBN10($codigo){
 
-        $isbn10 = $this->codigo;
+        $cod = $this->verificarCodigo($codigo);
 
-        $soma = 0;
+        if($cod == "ISBN-10"){
 
-        $mult = 10;
+            $codigo = $this->codigo;
+            
+            $soma = 0;
 
-        for($i = 0; $i < 9; $i++){
+            $mult = 10;
 
-            $soma += intval($isbn10[$i]) * $mult;
+            for($i = 0; $i < 9; $i++){
 
-            $mult--;
-        }
+                $soma += intval($codigo[$i]) * $mult;
+                //echo "Soma = " . $soma . " ";
+                $mult--;
+            }
 
-        $mod = 11 - ($soma % 11);
+            echo "<br>";
 
-        if($mod != intval($isbn10[9])){
+            $mod = 11 - ($soma % 11);
 
-            echo "O ÚLTIMO DIGITO NÃO BATEU\n";
-        }else{
+            
 
-            echo "O ÚLTIMO DIGITO BATÉU!\n";
+            if($mod == intval($codigo[9])){
+
+                //echo "O ÚLTIMO DIGITO NÃO BATEU\n";
+
+                return true;
+
+            }elseif($mod == 10 && $codigo[9] == "X"){
+
+                return true;
+            
+            }else{
+
+                //echo "O ÚLTIMO DIGITO BATÉU!\n";
+
+                return false;
+            }
+
+
+        }elseif($cod == false){
+
+            return false;
         }
     }
 
     public function validarISBN13($codigo){
 
-        $isbn13 = $this->codigo;
+        $cod = $this->verificarCodigo($codigo);
 
-        // echo "\nisbn13 antes dos caracteres: $isbn13\n";
+        if($cod == "ISBN-13"){
 
-        $isbn13 = preg_replace('/\D/', '', $isbn13);
-        
-        // echo "\nisbn13 depois dos caracteres: $isbn13\n";
-        
-        $soma = 0;
-        
-        for($i = 0; $i < 12; $i++){
-        
-            if($i % 2 == 0){
-        
-                $soma+= intval($isbn13[$i]) * 1;
-                
-            }else{
-        
-                $soma += intval($isbn13[$i]) * 3;
-        
+            $codigo = $this->codigo;
+                    
+            $soma = 0;
+            
+            for($i = 0; $i < 12; $i++){
+            
+                if($i % 2 == 0){
+            
+                    $soma+= intval($codigo[$i]) * 1;
+                    
+                }else{
+            
+                    $soma += intval($codigo[$i]) * 3;
+            
+                }
             }
-        }
-        
-        // echo "\n\n====isbn13: $soma ====\n\n";
-        
-        $mod = $soma % 10;
-        
-        $ultimo_digito = 10 - $mod;
-        
-        // echo "ULTIMO DIGITO: $ultimo_digito\n\n";
-        
-        if($ultimo_digito == intval($isbn13[12]))
-        {
-            echo "O ÚLTIMO DIGITO BATEU!!!\n\n";
-        
-        }else{
-        
-            echo "O ÚLTIMO DIGITO NÃO BATEU!!!\n\n";
+                    
+            $mod = $soma % 10;
+            
+            $ultimo_digito = 10 - $mod;
+                    
+            if($ultimo_digito == intval($codigo[12])){
+                // echo "O ÚLTIMO DIGITO BATEU!!!\n\n";
+
+                return true;
+            
+            }else{
+            
+                // echo "O ÚLTIMO DIGITO NÃO BATEU!!!\n\n";
+
+                return false;
+            }
+        }elseif($cod == false){
+
+            return false;
         }
     }
 }
