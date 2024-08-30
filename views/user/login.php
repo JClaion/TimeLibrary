@@ -10,9 +10,9 @@
     <form action="../../services/login.php" method = "POST">
 
         <label for="email">Email:</label>
-        <input type="text" name = "email">
+        <input type="text" name = "codigo_identificacao"><br>
         <label for="email">Senha:</label>
-        <input type="text" name = "senha">
+        <input type="text" name = "senha"><br>
 
         <input type="submit" value = "Logar-se">
 

@@ -12,17 +12,18 @@ use InvalidArgumentException;
 
 class Usuario{
 
-    private $id;
-    private $nome;
-    private $email;
-    private $senha;
-    private $telefone;
-    private $cep;
-    private $estado;
-    private $bairro;
-    private $rua;
-    private $numero;
-    private $complemento;
+    public $id;
+    public $nome;
+    public $email;
+    public $senha;
+    public $telefone;
+    public $cep;
+    public $estado;
+    public $cidade;
+    public $bairro;
+    public $rua;
+    public $numero;
+    public $complemento;
 
     public function editarDados(){
 
@@ -57,7 +58,7 @@ class Usuario{
         echo "Livro ofertado!";
     }
 
-    private function throwExceptionTypeLivro($livro){
+    public function throwExceptionTypeLivro($livro){
         if (!$livro instanceof Livro) {
 
             throw new InvalidArgumentException('Todos os itens devem ser instâncias da classe Livro.');
