@@ -1,4 +1,55 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+
+
+
+
+
+
+body ,html {
+    height: 100%;
+}
+
+
+
+
+
+.login-form-container{
+    background-color:#F5F7F8;
+    border-radius: 10px; /* Bordas arredondadas */
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2); /* Sombra leve para destacar o formulário */
+    width: 100%; 
+    max-width: 400px; 
+    padding: 30px 40px; 
+    border: 2px solid rgba(255, 255, 255, 0.266); /* Borda branca com transparência */
+    backdrop-filter: blur(20px);
+    display: flex;
+    align-items: center;
+}
+
+
+
+
+.logo {
+    max-width: 100%;
+    height: auto;
+}
+
+.bg-dark-blue{
+   background-color:#00274d;
+ 
+
+}
 
 .full-height {
     height: 92.5vh; /* 92.5% da altura da viewport */
 }
+
+
+
+
