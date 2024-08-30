@@ -52,21 +52,18 @@
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
 
-    require_once "../utils/CodigoValido.php";
+    require_once "../utils/CEP.php";
 
-    use classe\CodigoValido;
+    use utils\CEP;
+    use classe\Usuario;
 
-    $obj = new CodigoValido();
+    $cep = new CEP();
+    $usr = new Usuario();
 
-    $teste = $obj->validarCPF("050.104.442.67");
+    $cep->lerCEP("41235545");
+    $cep->adaptarJson($usr);
 
-    if($teste == true){
+    $cep->exibirDados();
 
-        echo "CPF válido!";
+    //Verificar esse négocio de COMPLEMENTO!
 
-    }else{
-
-        echo "CPF inválido!";
-    }
-    
-    

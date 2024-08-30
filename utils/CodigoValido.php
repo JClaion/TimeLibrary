@@ -1,6 +1,6 @@
 <?php
 
-namespace classe;
+namespace utils;
 
 class CodigoValido{
 

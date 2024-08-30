@@ -1,27 +1,34 @@
 <?php
 
-namespace classe;
-
+namespace utils;
 
 class DB{
 
-private $banco_servidor = "localhost";
-private $banco_usuario = "jvbc";
-private $banco_senha = "4426655xara";
-private $banco_nome = "TL";
+    private $banco_servidor;
+    private $banco_usuario;
+    private $banco_senha;
+    private $banco_nome;
 
+    private $conexao;
 
-public $conexao;
 private static $instancia;
 
 private function __construct(){
+
+    require_once "../utils/private/dados.php";
+
+    $this->banco_nome = $db_name;
+    $this->banco_usuario = $db_user;
+    $this->banco_senha = $db_password;
+    $this->banco_servidor = $db_server;
+
 
     $this->conexao = mysqli_connect($this->banco_servidor, $this->banco_usuario, $this->banco_senha, $this->banco_nome);
     if (!$this->conexao) {
         die("Erro ao conectar ao banco de dados: " . mysqli_connect_error());
     }else{
 
-        //echo "Conexão bem-sucedida!";
+        echo "Conexão bem-sucedida!";
     }
 }
 
