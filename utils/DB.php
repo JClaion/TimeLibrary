@@ -2,6 +2,7 @@
 
 namespace classe;
 
+
 class DB{
 
 private $banco_servidor = "localhost";
@@ -138,3 +139,4 @@ public function delete($tabela, $tipoCondicao, $condicao, ...$parametros) {
     }
 }
 }
+

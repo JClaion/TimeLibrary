@@ -1,6 +1,6 @@
 <?php
 
-namespace classe;
+namespace utils;
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -9,14 +9,7 @@ error_reporting(E_ALL);
 require_once "../utils/private/dados.php";
 require_once "../vendor/vendor/autoload.php";
 
-
-// private $servico = $host;
-//     private $usr = $username;
-//     private $pss = $password;
-
 use PHPMailer\PHPMailer\PHPMailer;
-
-//echo $teste;
 
 class Email{
 
