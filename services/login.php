@@ -4,9 +4,9 @@
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
 
-    require "../classe/DB.php";
+    require "../utils/DB.php";
 
-    use classe\DB;
+    use utils\DB;
 
     $banco = DB::getInstance();
 
