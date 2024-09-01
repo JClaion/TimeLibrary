@@ -15,7 +15,7 @@ private static $instancia;
 
 private function __construct(){
 
-    require_once "../utils/private/dados.php";
+    require_once "../utils/private/dados_banco.php";
 
     $this->banco_nome = $db_name;
     $this->banco_usuario = $db_user;
@@ -28,7 +28,7 @@ private function __construct(){
         die("Erro ao conectar ao banco de dados: " . mysqli_connect_error());
     }else{
 
-        echo "Conexão bem-sucedida!";
+        //echo "Conexão bem-sucedida!";
     }
 }
 
@@ -49,7 +49,6 @@ public function select($coluna, $tabela, $tipoCondicao = null, $condicao = null,
             if (!empty($parametros)) {
                 $tipos = str_repeat('s', count($parametros)); 
                 mysqli_stmt_bind_param($stmt, $tipos, ...$parametros);
-
             }
             mysqli_stmt_execute($stmt);
             $res = mysqli_stmt_get_result($stmt);
@@ -71,7 +70,6 @@ public function select($coluna, $tabela, $tipoCondicao = null, $condicao = null,
 public function insert($tabela, $valores, $colunas = null){
 
     if($colunas){
-
         $sql = "INSERT INTO $tabela ($colunas) VALUES ($valores)";
     } else {
         $sql = "INSERT INTO $tabela VALUES ($valores)";
