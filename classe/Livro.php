@@ -25,43 +25,13 @@ class Livro {
         $this->cod_editora = $cod_editora;
     }
 
-    public function getTudo() {
-        return [
-            'codLivro'   => $this->codLivro ?? 'Não disponível',
-            'nome'       => $this->nome ?? 'Não disponível',
-            'autor'      => $this->autor ?? 'Não disponível',
-            'preco'      => $this->preco ?? 'Não disponível',
-            'isbn'       => $this->isbn ?? 'Não disponível',
-            'ano'        => $this->ano ?? 'Não disponível',
-            'cod_editora'    => $this->cod_editora ?? 'Não disponível'
-        ];
-    }
-
     public static function mostrarLivros() {
 
         $livros = [];
 
         $banco = DB::getInstance();
 
-        $obj = $banco->select("*", "livros"); // MySQL object
-
-        if ($obj && mysqli_num_rows($obj) > 0) {
-            while ($linha = mysqli_fetch_assoc($obj)) {
-                $livro = new Livro(
-                    $linha['cod_livro'] ?? null,
-                    $linha['nome_livro'] ?? null,
-                    $linha['Autor'] ?? null,
-                    $linha['preco'] ?? null,
-                    $linha['isbn'] ?? null,
-                    $linha['ano'] ?? null,
-                    $linha['cod_editora'] ?? null
-                );
-
-                $livros[] = $livro;
-            }
-        }
-
-        return $livros;
+        return $banco->select("*", "livros"); // MySQL object
     }
 }
 ?>
