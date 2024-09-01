@@ -25,7 +25,7 @@ class Livro {
         $this->cod_editora = $cod_editora;
     }
 
-    public static function mostrarLivros() {
+    public static function pegarTodos() {
 
         $livros = [];
 
