@@ -19,6 +19,13 @@ class Pedido{
         echo "Valor calculado!";
     }
 
+    public static function pegarTodos() {
+
+        $banco = DB::getInstance();
+
+        return $banco->select("*", "pedidos"); // MySQL object
+    }
+
 }
 
 ?>

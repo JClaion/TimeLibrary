@@ -62,6 +62,13 @@ class Usuario{
         echo "Livro ofertado!";
     }
 
+    public static function pegarTodos() {
+
+        $banco = DB::getInstance();
+
+        return $banco->select("*", "clientes"); // MySQL object
+    }
+
     public function throwExceptionTypeLivro($livro){
         if (!$livro instanceof Livro) {
 

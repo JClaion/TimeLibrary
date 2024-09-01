@@ -5,6 +5,12 @@ namespace classe;
 
         private $cnpj;
         private $inscricao_estadual;
-        
+     
+        public static function pegarTodos() {
+
+            $banco = DB::getInstance();
+    
+            return $banco->select("*", "juridica"); // MySQL object
+        }
     }
 ?>

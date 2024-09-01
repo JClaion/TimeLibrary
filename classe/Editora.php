@@ -12,4 +12,10 @@ class Editora{
     private $contato;
     private $email;
 
+    public static function pegarTodos() {
+
+        $banco = DB::getInstance();
+
+        return $banco->select("*", "editoras"); // MySQL object
+    }
 }

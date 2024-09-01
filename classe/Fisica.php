@@ -21,4 +21,10 @@ class Fisica extends Usuario{
 
 
     }
+    public static function pegarTodos() {
+
+        $banco = DB::getInstance();
+
+        return $banco->select("*", "fisica"); // MySQL object
+    }
 }
