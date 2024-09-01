@@ -42,7 +42,7 @@
         $cliente = new Usuario();
         $cliente->cep =  $data["cep"];
         $cliente->rua =  $data["logradouro"];
-        $cliente->complemento =  $data["complemento"];
+        //$cliente->complemento = $data["complemento"];
         $cliente->bairro =  $data["bairro"];
         $cliente->cidade =  $data["localidade"];
         $cliente->estado = $data["uf"];
@@ -52,7 +52,7 @@
         $data = json_decode($this->cepJson, true);
         echo "CEP: " . $data["cep"] . "<br>";
         echo "Logradouro: " . $data["logradouro"] . "<br>";
-        echo "Complemento: " . $data["complemento"] . "<br>";
+        //echo "Complemento: " . $data["complemento"] . "<br>";
         echo "Bairro: " . $data["bairro"] . "<br>";
         echo "Cidade: " . $data["localidade"] . "<br>";
         echo "UF: " . $data["uf"] . "<br>";

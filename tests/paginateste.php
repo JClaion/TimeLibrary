@@ -1,56 +1,36 @@
 <?php
-
-session_start();
-
-require "../../utils/Notificacao.php";
-
-use utils\Notificacao;
-
-$pageTitle = "Login";
+$pageTitle = "Pagina de Teste";
 $additionalLinks = [
-    "../../assets/public/bootstrap-5.3.3-dist/css/bootstrap.css",
+    "../assets/public/bootstrap-5.3.3-dist/css/bootstrap.css",
     "https://fonts.googleapis.com",
     "https://fonts.gstatic.com",
     "https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap"
 ];
-
 //"../../assets/public/css/style.css"
 $additionalScriptsFooter = [
-    '../../assets/public/bootstrap-5.3.3-dist/js/bootstrap.js',
-    "../../assets/public/bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"
+    '../assets/public/bootstrap-5.3.3-dist/js/bootstrap.js',
+    "../assets/public/bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"
 ];
-
-include "../../views/parts/header.php";
-
-
-
+include "../views/parts/header.php";
 ?>
+
 
 <div class="container-fluid h-100">
     <div class="row h-100">
-
-      <!-- Quadrado de aviso no meio -->
-      <?php
-
-      $not = new Notificacao();
-      echo $not->mostrarErro("Testando");
-      
-      ?>
-
         <!-- Div da Imagem, deu trabalho. -->
         <div class="col-md-7 p-0">
-            <img src="../../assets/public/images/logo.jpg" alt="Logo Time Library" class="img-fluid w-100" style="height: auto; max-height: 100vh; object-fit: cover;">
+            <img src="../assets/public/images/logo.jpg" alt="Logo Time Library" class="img-fluid w-100" style="height: auto; max-height: 100vh; object-fit: cover;">
         </div>
 
         <!-- Formulário -->
-        <div class="col-md-5 d-flex align-items-center justify-content-center bg-light">
-            <div class="form w-75 p-4 rounded shadow-sm bg-white ">
+        <div class="col-md-5 d-flex align-items-center justify-content-center">
+            <div class="form w-75">
                 <form action="../../services/login.php" method="POST">
-                    <h1 class="text-center mb-4"> Bem Vindo </h1>
+                    <h1 class="text-center"> Bem Vindo </h1>
                     <div class="mb-3">
                         <label for="email" class="form-label">Email:</label>
                         <div class="input-group flex-nowrap">
-                            <input placeholder="Digite seu Email" type="email" name="email" required class="form-control">
+                            <input placeholder="Digite seu Email" type="text" name="email" required class="form-control">
                             <span class="input-group-text">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
                                     <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6" />
@@ -72,17 +52,17 @@ include "../../views/parts/header.php";
                     </div>
 
                     <div class="form-group mb-3 text-center">
-                        <a href="recuperacao_senha.php">Esqueci minha senha</a> <!--Coloquei pra testar, calma, sem neurose -->
+                        <a href="#">Esqueci minha senha</a>
                     </div>
 
                     <button type="submit" class="btn btn-outline-primary w-100">Logar-se</button>
 
                     <div class="mt-3 text-center">
-                        <p>Não está cadastrado? <a href="cadastro.php">Cadastrar</a></p>
+                        <p>Não está cadastrado? <a href="#">Cadastrar</a></p>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
-<?php include "../../views/parts/footer.php"; ?>
+<?php include "../views/parts/footer.php"; ?>

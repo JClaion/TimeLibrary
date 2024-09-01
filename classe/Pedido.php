@@ -2,6 +2,9 @@
 
 namespace classe;
 
+require_once "../utils/DB.php";
+use utils\DB;
+
 class Pedido{
 
     private $idPedido;

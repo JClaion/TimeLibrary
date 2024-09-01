@@ -1,0 +1,22 @@
+.btn-group {
+    display: flex;
+    width: 100%;
+}
+.btn {
+    flex: 1;
+    margin: 0;
+}
+.btn-primary {
+    background-color: #007bff;
+    color: white;
+}
+
+.btn-outline-secondary {
+    background-color: white;
+    color: #6c757d;
+    border: 1px solid #6c757d;
+}
+.btn-secondary {
+    background-color: #6c757d;
+    color: white;
+}

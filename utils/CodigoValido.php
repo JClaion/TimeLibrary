@@ -138,7 +138,7 @@ class CodigoValido{
 
             if($primeiro_digito == true && $segundo_digito == true){
 
-                // echo "\nO CPF É VÁLIDO!\n";
+                //echo "\nO CPF É VÁLIDO!\n";
 
                 return true;
 

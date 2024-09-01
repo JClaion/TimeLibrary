@@ -5,19 +5,9 @@
     font-family: "Poppins", sans-serif;
 }
 
-
-
-
-
-
-
 body ,html {
     height: 100%;
 }
-
-
-
-
 
 .login-form-container{
     background-color:#F5F7F8;
@@ -31,9 +21,6 @@ body ,html {
     display: flex;
     align-items: center;
 }
-
-
-
 
 .logo {
     max-width: 100%;
@@ -49,7 +36,4 @@ body ,html {
 .full-height {
     height: 92.5vh; /* 92.5% da altura da viewport */
 }
-
-
-
 

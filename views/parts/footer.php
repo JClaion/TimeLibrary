@@ -1,4 +1,12 @@
+<!-- footer.php -->
+    <?php
+    // Scripts adicionais no final do body
+    if (isset($additionalScriptsFooter)) {
+        foreach ($additionalScriptsFooter as $script) {
+            echo '<script src="' . $script . '"></script>';
+        }
+    }
+    ?>
+
 </body>
-<script src="../../assets/public/bootstrap-5.3.3-dist/js/bootstrap.js"></script>
-<script src="../../assets/public/bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js"></script>
 </html>
