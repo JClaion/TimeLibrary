@@ -27,8 +27,6 @@ class Livro {
 
     public static function pegarTodos() {
 
-        $livros = [];
-
         $banco = DB::getInstance();
 
         return $banco->select("*", "livros"); // MySQL object
