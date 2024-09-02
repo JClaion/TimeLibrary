@@ -1,12 +1,21 @@
 <?php
+
 namespace classe;
 
 
-class Juridica extends Usuario{
+require_once "../utils/DB.php";
+use utils\DB;
 
-    private $cnpj;
-    private $inscricao_estadual;
-    
-}
+    class Juridica extends Usuario{
 
+        private $cnpj;
+        private $inscricao_estadual;
+     
+        public static function pegarTodos() {
+
+            $banco = DB::getInstance();
+            
+            return $banco->select("*", "juridica"); // MySQL object
+        }
+    }
 ?>

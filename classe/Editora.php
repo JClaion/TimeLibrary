@@ -2,6 +2,9 @@
 
 namespace classe;
 
+require_once "../utils/DB.php";
+use utils\DB;
+
 class Editora{
 
     private $codEditora;
@@ -9,4 +12,10 @@ class Editora{
     private $contato;
     private $email;
 
+    public static function pegarTodos() {
+
+        $banco = DB::getInstance();
+
+        return $banco->select("*", "editoras"); // MySQL object
+    }
 }
