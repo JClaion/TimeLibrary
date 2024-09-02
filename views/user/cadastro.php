@@ -16,13 +16,13 @@ $additionalScriptsFooter = [
 include "../../views/parts/header.php";
 ?>
 
+<form action="../../services/cadastro.php" method="POST">                
 <div class="container-fluid h-100">
     <div class="row h-100">
         <!-- Coluna da esquerda  -->
         <div class="col-md-4 d-flex justify-content-center">
             <div class="form w-75">
-                <form action="../../services/login.php" method="POST">
-                    <h1 class="text-center">Cadastro</h1>
+                    <h3 class="text-center">Cadastro</h3>
                     <!-- Nome -->
                     <div class="mb-3">
                         <label for="nome" class="form-label">Nome:</label>
@@ -78,8 +78,13 @@ include "../../views/parts/header.php";
                     <div class="mb-3">
                         <label class="form-label">Tipo de Pessoa:</label>
                         <div class="btn-group" role="group" aria-label="Tipo de Pessoa">
-                            <button type="button" class="btn btn-primary" id="btnFisica" onclick="selecionarTipo('fisica')">Pessoa Física</button>
-                            <button type="button" class="btn btn-outline-secondary" id="btnJuridica" onclick="selecionarTipo('juridica')">Pessoa Jurídica</button>
+                            <!-- Input Radio para Pessoa Física -->
+                            <input type="radio" hidden id="fisica" checked name="tipo_pessoa" value="fisica" onclick="selecionarTipo('fisica')" required>
+                            <label for="fisica" id="btnFisica" class="btn btn-primary">Pessoa Física</label>
+
+                            <!-- Input Radio para Pessoa Jurídica -->
+                            <input type="radio" hidden id="juridica" name="tipo_pessoa" value="juridica" onclick="selecionarTipo('juridica')">
+                            <label for="juridica" id="btnJuridica" class="btn btn-outline-secondary">Pessoa Jurídica</label>
                         </div>
                     </div>
 
@@ -88,7 +93,7 @@ include "../../views/parts/header.php";
                             <div class="mb-3">
                                 <label for="cpf" class="form-label">CPF:</label>
                                 <div class="input-group flex-nowrap">
-                                    <input placeholder="Digite seu CPF" type="text" maxlength="11" name="cpf" required class="form-control">
+                                    <input placeholder="Digite seu CPF" type="text" maxlength="11" name="cpf" class="form-control">
                                     <span class="input-group-text">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-123" viewBox="0 0 16 16">
                                             <path d="M2.873 11.297V4.142H1.699L0 5.379v1.137l1.64-1.18h.06v5.961zm3.213-5.09v-.063c0-.618.44-1.169 1.196-1.169.676 0 1.174.44 1.174 1.106 0 .624-.42 1.101-.807 1.526L4.99 10.553v.744h4.78v-.99H6.643v-.069L8.41 8.252c.65-.724 1.237-1.332 1.237-2.27C9.646 4.849 8.723 4 7.308 4c-1.573 0-2.36 1.064-2.36 2.15v.057zm6.559 1.883h.786c.823 0 1.374.481 1.379 1.179.01.707-.55 1.216-1.421 1.21-.77-.005-1.326-.419-1.379-.953h-1.095c.042 1.053.938 1.918 2.464 1.918 1.478 0 2.642-.839 2.62-2.144-.02-1.143-.922-1.651-1.551-1.714v-.063c.535-.09 1.347-.66 1.326-1.678-.026-1.053-.933-1.855-2.359-1.845-1.5.005-2.317.88-2.348 1.898h1.116c.032-.498.498-.944 1.206-.944.703 0 1.206.435 1.206 1.07.005.64-.504 1.106-1.2 1.106h-.75z" />
@@ -113,7 +118,7 @@ include "../../views/parts/header.php";
                             <div class="mb-3">
                                 <label for="cnpj" class="form-label">CNPJ:</label>
                                 <div class="input-group flex-nowrap">
-                                    <input placeholder="Digite seu CNPJ" type="text" maxlength="14" name="cnpj" required class="form-control">
+                                    <input placeholder="Digite seu CNPJ" type="text" maxlength="14" name="cnpj" class="form-control">
                                     <span class="input-group-text">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-123" viewBox="0 0 16 16">
                                             <path d="M2.873 11.297V4.142H1.699L0 5.379v1.137l1.64-1.18h.06v5.961zm3.213-5.09v-.063c0-.618.44-1.169 1.196-1.169.676 0 1.174.44 1.174 1.106 0 .624-.42 1.101-.807 1.526L4.99 10.553v.744h4.78v-.99H6.643v-.069L8.41 8.252c.65-.724 1.237-1.332 1.237-2.27C9.646 4.849 8.723 4 7.308 4c-1.573 0-2.36 1.064-2.36 2.15v.057zm6.559 1.883h.786c.823 0 1.374.481 1.379 1.179.01.707-.55 1.216-1.421 1.21-.77-.005-1.326-.419-1.379-.953h-1.095c.042 1.053.938 1.918 2.464 1.918 1.478 0 2.642-.839 2.62-2.144-.02-1.143-.922-1.651-1.551-1.714v-.063c.535-.09 1.347-.66 1.326-1.678-.026-1.053-.933-1.855-2.359-1.845-1.5.005-2.317.88-2.348 1.898h1.116c.032-.498.498-.944 1.206-.944.703 0 1.206.435 1.206 1.07.005.64-.504 1.106-1.2 1.106h-.75z" />
@@ -134,17 +139,13 @@ include "../../views/parts/header.php";
                             </div>
                         </div>
                     </div>
-
-
-                </form>
+                </div>
             </div>
-        </div>
 
         <!-- Coluna do meio -->
-        <div class="col-md-4 d-flex justify-content-center">
-            <div class="form w-75">
-                <form>
-                    <h2 class="text-center">Endereço</h2>
+            <div class="col-md-4 d-flex justify-content-center">
+                <div class="form w-75">
+                    <h3 class="text-center">Endereço</h3>
 
                     <!-- CEP -->
                     <div class="mb-3">
@@ -189,6 +190,21 @@ include "../../views/parts/header.php";
                         </div>
                     </div>
 
+                    <!-- bairro -->
+                    <!--OI BEBE -->
+                    <div class="mb-3">
+                        <label for="rua" class="form-label">Bairro:</label>
+                        <div class="input-group flex-nowrap">
+                            <input placeholder="Digite seu bairro" type="text" name="bairro" required class="form-control">
+                            <span class="input-group-text">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-sign-merge-right" viewBox="0 0 16 16">
+                                    <path d="M8.75 6v1q.211.451.588.95c.537.716 1.259 1.44 2.016 2.196l-.708.708-.015-.016c-.652-.652-1.33-1.33-1.881-2.015V12h-1.5V6H6.034a.25.25 0 0 1-.192-.41l1.966-2.36a.25.25 0 0 1 .384 0l1.966 2.36a.25.25 0 0 1-.192.41z" />
+                                    <path fill-rule="evenodd" d="M9.05.435c-.58-.58-1.52-.58-2.1 0L.436 6.95c-.58.58-.58 1.519 0 2.098l6.516 6.516c.58.58 1.519.58 2.098 0l6.516-6.516c.58-.58.58-1.519 0-2.098zm-1.4.7a.495.495 0 0 1 .7 0l6.516 6.515a.495.495 0 0 1 0 .7L8.35 14.866a.495.495 0 0 1-.7 0L1.134 8.35a.495.495 0 0 1 0-.7L7.65 1.134Z" />
+                                </svg>
+                            </span>
+                        </div>
+                    </div>
+
                     <!-- Rua -->
 
                     <div class="mb-3">
@@ -220,7 +236,7 @@ include "../../views/parts/header.php";
 
                     <!-- complemento -->
 
-                    <div class="mb-3">
+                    <div class="mb-2">
                         <label for="complemento" class="form-label"> Complemento:</label>
                         <div class="input-group flex-nowrap">
                             <input placeholder="Digite o complemento " type="text" name="complemento" required class="form-control">
@@ -233,22 +249,22 @@ include "../../views/parts/header.php";
                     </div>
 
                     <!-- Botoes -->
-                    <button type="submit" class="btn btn-outline-primary w-100">Cadastrar-se</button>
+                    <input type="submit" class="btn btn-outline-primary w-100" value="Cadastrar-se" name="botao_cadastrar">
 
-                    <div class="mt-3 text-center">
+                    <div class="mt-1 text-center">
                         <p>Já tenho cadastro! <a href="login.php">Login</a></p>
                     </div>
 
-                </form>
+                </div>
+            </div>
+            
+            <!-- Imagem -->
+            <div class="col-md-4 d-flex justify-content-center p-0" style="background-color: #1C2C40; padding: 20px; border-radius: 10px;">
+                <img src="../../assets/public/images/logo2.jpeg" alt="Logo Time Library" class="img-fluid w-100" style="height: auto; max-height: 100vh; object-fit: cover;">
             </div>
         </div>
-
-        <!-- Imagem -->
-        <div class="col-md-4 d-flex justify-content-center p-0" style="background-color: #1C2C40; padding: 20px; border-radius: 10px;">
-            <img src="../../assets/public/images/logo2.jpeg" alt="Logo Time Library" class="img-fluid w-100" style="height: auto; max-height: 100vh; object-fit: cover;">
-        </div>
     </div>
-</div>
+</form>
 
 <?php
 include "../../views/parts/footer.php";

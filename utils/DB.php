@@ -15,7 +15,7 @@ private static $instancia;
 
 private function __construct(){
 
-    require_once "../utils/private/dados_banco.php";
+    require __DIR__ . '/private/dados_banco.php';
 
     $this->banco_nome = $db_name;
     $this->banco_usuario = $db_user;

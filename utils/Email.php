@@ -27,7 +27,7 @@ class Email{
 
     }
 
-    public function emailGenerico(string $assunto, string $conteudo, string $destino, string $alt = null){
+    public function enviarEmail(string $assunto, string $conteudo, string $destino, string $alt = null){
     
         $mail = new PHPMailer();
 
@@ -56,13 +56,13 @@ class Email{
         //Esse alt é a versão simplificada do e-mail, caso a plataforma não suporte e-mails com HTML.
 
         if(!$mail->send()) {
-            //echo 'Não foi possível enviar a mensagem.';
-            //echo 'Erro: ' . $mail->ErrorInfo;
+            echo 'Não foi possível enviar a mensagem.';
+            echo 'Erro: ' . $mail->ErrorInfo;
 
             return false;
 
         } else {
-            //echo "E-mail enviado com sucesso!!!<br>";
+            echo "E-mail enviado com sucesso!!!<br>";
             return true;
         }
     }

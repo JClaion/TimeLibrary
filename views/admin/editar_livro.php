@@ -24,25 +24,24 @@
 
             $email = $linha_login["email"];
             $nome = $linha_login["nome"];
+            $cargo = $linha_login["cargo"];
+
+
         }
     }
+
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
-</head>
-<body>
+<?php if($cargo != "administrador"): ?>
 
-    <h1>Bem-vindo, <?php echo $nome ?> ao nosso dashboard!</h1>
+<h1>Você não tem permissão para entrar aqui.</h1>
 
-    <h2>Acesse a nossa <a href = "../loja/tela_loja.php">loja!</a></h2>
+    <a href="../user/login.php">Voltar</a>
+    <?php session_destroy(); ?>
 
-    <a href="perfil.php">Perfil de usuário</a>
+<?php else: ?>
 
-    
-</body>
-</html>
+    <h1>Tela de editar livro</h1>
+
+
+<?php endif; ?>

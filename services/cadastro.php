@@ -2,14 +2,20 @@
 
 <?php
 
+    session_start();
+
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
 
     require_once "../utils/DB.php";
     require_once "../utils/CodigoValido.php";
+    require_once "../utils/Email.php";
     use utils\CodigoValido;
     use utils\DB;
+    use utils\Email;
+
+    $mailer = new Email();
 
     $cod = new CodigoValido;
 
@@ -37,67 +43,143 @@
 
     $numero = (isset($_POST["numero"]) && !empty($_POST["numero"])) ? $_POST["numero"] : null;
 
-    $pessoa = (isset($_POST["pessoa"]) && !empty($_POST["pessoa"])) ? $_POST["pessoa"] : null;
+    $tipo_pessoa = (isset($_POST["tipo_pessoa"]) && !empty($_POST["tipo_pessoa"])) ? $_POST["tipo_pessoa"] : null;
 
-    
+    //echo "=====O valor escolhido é: $tipo_pessoa=====<br>";
 
+    // var_dump($nome, $email, $senha, $cep, $complemento, $estado, $cidade, $bairro, $rua);
 
+    if($nome != null && $email != null && $senha != null && $complemento && $cep != null && $estado != null && $cidade != null && $bairro != null && $rua != null){
 
+        // echo "CHEGUEI!!!";
 
-
-    // echo "O valor escolhido é: $pessoa";
-
-    //var_dump($nome, $email, $senha, $cpf_cnpj, $cep, $complemento, $estado, $cidade, $bairro, $rua);
-
-    if($nome != null && $email != null && $senha != null && $cpf_cnpj != null && $complemento && $cep != null && $estado != null && $cidade != null && $bairro != null && $rua != null){
-
-        echo "CHEGUEI!!!";
-
-        $codigo_teste = null;
+        $codigo_cpf = null;
+        $codigo_cnpj = null;
 
         if(isset($_POST["cpf"]) && !empty($_POST["cpf"]) && isset($_POST["rg"]) && !empty($_POST["rg"])){
 
             $cpf = $_POST["cpf"];
     
-            $codigo_teste = $cod->validarCPF($cpf);
+            $codigo_cpf = $cod->validarCPF($cpf);
+
+            //echo "CPF = $codigo_cpf";
     
             $rg = $_POST["rg"];
-    
-        }elseif(isset($_POST["cnpj"]) && !empty($_POST["cnpj"]) && isset($_POST["ie"]) && !empty($_POST["ie"])){
-    
-            $cnpj = $_POST["cnpj"];
 
-            $codigo_teste = $cod->validarCNPJ($cnpj);
-
-            $inscricao_estadual = $_POST["ie"];
-    
-        }
-
-        if($codigo_teste == null || $codigo_teste == false){
-
-            echo "O CPF/CNPJ está inválido!";
-
-        }else{
-
-            echo "INSERINDO!!!";
+            //echo "INSERINDO FISICO!!!";
         
-            $cadastrar_dados = $banco->insert("clientes", "'$nome', '$email', '$senha', '$rua', $numero, '$complemento', '$cep', '$cidade', '$estado'", "nome, email, senha, rua, numero, complemento, cep, cidade, estado");
+            $conta_estado = 0;
+        
+            $cadastrar_dados = $banco->insert("clientes", "'$nome', '$email', '$senha', '$rua', $numero, '$complemento', '$cep', '$cidade', '$estado', $conta_estado", "nome, email, senha, rua, numero, complemento, cep, cidade, estado, conta_estado");
 
             $consulta_id_cliente = $banco->select("id", "clientes", "WHERE", "nome = '$nome'");
 
-            echo "ID do cliente consultado do cliente: $nome <br>";
+            if($consulta_id_cliente && mysqli_num_rows($consulta_id_cliente) > 0){
 
-            if($cadastrar_dados == true){
+                $linha_fisica = mysqli_fetch_assoc($consulta_id_cliente);
 
-                echo "Inserção concluida!<br>";
+                $id_fisica = $linha_fisica["id"];
 
-            }else{
+                //echo "===ID consultado do cliente físico $nome: $id_fisica === <br>";
 
-                echo "FALHA!";
+                $inserir_fisico = $banco->insert("fisica", "$id_fisica, '$codigo_cpf', '$rg'", "id_cliente, cpf, rg");
+
+                if($inserir_fisico == true){
+
+                    //echo "ID, CPF e RG INSERIDOSSS!!!";
+
+                    $tok = uniqid();
+
+                    $assunto = "
+                        Criação de conta.
+                    ";
+                    $conteudo = "                        
+                        Olá, este e-mail serve tanto para confirmar que o seu e-mail existe quanto para confirmar a criação da sua conta, para confirmar, <a href = 'http://201.2.18.191:2222/TimeLibrary/services/pegar_token_url.php?token=$tok'>clique aqui</a>
+                    ";
+
+                    $destino = $email;
+
+                    $expiracao_token = date('Y-m-d H:i:s', strtotime('+1 hour'));
+
+                    $inserir_token = $banco->insert("tokens", "'$tok', $id_fisica, '$expiracao_token'", "token, id_cliente, tempo_token");
+                    
+                    $mensagem_email = $mailer->enviarEmail($assunto, $conteudo, $destino);
+
+                    $_SESSION["email_cadastro"] = true;
+
+                    header("Location: ../views/user/login.php");
+
+                    //echo "CHeguei aqui (fisico)!!!";
+                }else{
+
+                    //echo "INSERÇÃO DOS CÓDIGOS FALHOU PARA A PESSOA FISICA!";
+
+                    $_SESSION["email_cadastro"] = false;
+
+                }
             }
 
-        }
+        }elseif(isset($_POST["cnpj"]) && !empty($_POST["cnpj"]) && isset($_POST["inscricao_estadual"]) && !empty($_POST["inscricao_estadual"])){
+    
+            $cnpj = $_POST["cnpj"];
 
+            $codigo_cnpj = $cod->validarCNPJ($cnpj);
+
+            echo "<br>CNPJ = $codigo_cnpj<br>";
+
+            $inscricao_estadual = $_POST["inscricao_estadual"];
+
+            //echo "<br>INSERINDO JURIDICO!!!<br>";
+
+            $conta_estado = 0;
+        
+            $cadastrar_dados = $banco->insert("clientes", "'$nome', '$email', '$senha', '$rua', $numero, '$complemento', '$cep', '$cidade', '$estado', $conta_estado", "nome, email, senha, rua, numero, complemento, cep, cidade, estado, conta_estado");
+
+            $consulta_id_cliente = $banco->select("id", "clientes", "WHERE", "nome = '$nome'");
+
+            if($consulta_id_cliente && mysqli_num_rows($consulta_id_cliente) > 0){
+
+                $linha_juridica = mysqli_fetch_assoc($consulta_id_cliente);
+
+                $id_juridica = $linha_juridica["id"];
+
+                //echo "<br>===ID consultado do cliente jurídico $nome: $id_juridica === <br>";
+
+                $inserir_juridico = $banco->insert("juridica", "$id_juridica, '$codigo_cnpj', '$inscricao_estadual'", "id_cliente, cnpj, inscricao_estadual");
+
+                if($inserir_juridico == true){
+
+                    //echo "<br>ID, CNPJ e INSCRIÇÃO ESTADUAL INSERIDOSSS!!!<br>";
+
+                    $tok = uniqid();
+
+                    $assunto = "
+                        Criação de conta.
+                    ";
+                    $conteudo = "                        
+                        Olá, este e-mail serve tanto para confirmar que o seu e-mail existe quanto para confirmar a criação da sua conta, para confirmar, <a href = 'http://201.2.18.191:2222/TimeLibrary/services/pegar_token_url.php?token=$tok'>clique aqui</a>
+                    ";
+                    $destino = $email;
+
+                    $expiracao_token = date('Y-m-d H:i:s', strtotime('+1 hour'));
+
+                    $inserir_token = $banco->insert("tokens", "'$tok', $id_juridica, '$expiracao_token'", "token, id_cliente, tempo_token");
+
+                    $mensagem_email = $mailer->enviarEmail($assunto, $conteudo, $destino);
+
+                    $_SESSION["email_cadastro"] = true;
+
+                    header("Location: ../views/user/login.php");
+
+                }else{
+
+                    echo "<br>INSERÇÃO DOS CÓDIGOS FALHOU PARA A PESSOA JURIDICA!<br>";
+
+                    $_SESSION["email_cadastro"] = false;
+
+                }
+            }
+        }
     }
 
 ?>

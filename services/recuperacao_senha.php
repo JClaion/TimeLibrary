@@ -27,13 +27,13 @@ if(isset($_POST["rec_email"]) && !empty($_POST["rec_email"])){
 
         $email_procurado = $linha["email"];
 
-        $_SESSION["email_encontrado"] = true;
+        $_SESSION["email_recuperacao"] = true;
 
         header("Location:../views/user/login.php");
 
     }else{
 
-        $_SESSION["email_encontrado"] = false;
+        $_SESSION["email_recuperacao"] = false;
 
         header("Location:../views/user/login.php");
 

@@ -12,7 +12,7 @@ class CodigoValido{
 
         $this->codigo = preg_replace('/[^0-9X]/i', '', $codigo);
 
-        echo "Código depois da formatação: $this->codigo <br>";
+        //echo "Código depois da formatação: $this->codigo <br>";
 
         if(strlen($this->codigo) == 11){
 
@@ -140,7 +140,7 @@ class CodigoValido{
 
                 //echo "\nO CPF É VÁLIDO!\n";
 
-                return true;
+                return $codigo;
 
             }else{
 
@@ -159,37 +159,41 @@ class CodigoValido{
     public function validarCNPJ($codigo){
 
         $cod = $this->verificarCodigo($codigo);
+
+        // echo "DENTRO DA FUNÇÃO, CHEGUEI AQUI";
+        // echo "O QUE SAI DO 'COD': $cod";
     
         if($cod == "CNPJ"){
-            
+
+            // echo "DENTRO DO IF , CHEGUEI AQUI";
+
             $primeiro_digito = null;
             $segundo_digito = null;
     
             $codigo = $this->codigo;
 
-            echo "1° Código dentro do método: $codigo <br>";
+            // echo "1° Código dentro do método: $codigo <br>";
 
-    
             $mult1 = [5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2];
             $mult2 = [6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2];
     
             $soma1 = 0;
-            echo "Loop 1 <br>";
+            // echo "Loop 1 <br>";
 
-            for($i = 0; $i < 13; $i++){
+            for($i = 0; $i < 12; $i++){
 
                 $soma1 += intval($codigo[$i]) * $mult1[$i];
-                echo $codigo[$i];
+                //echo $codigo[$i];
 
             }
 
-            echo "<br>";
+            // echo "<br>";
 
-            echo "2° Código dentro do método: $codigo <br>";
+            // echo "2° Código dentro do método: $codigo <br>";
 
             $mod1 = 11 - ($soma1 % 11);
 
-            echo "Módulo 1 = $mod1 <br>";
+            // echo "Módulo 1 = $mod1 <br>";
 
             if($mod1 < 2 || $mod1 >= 10){
 
@@ -198,33 +202,33 @@ class CodigoValido{
     
             $soma2 = 0;
 
-            echo "Loop 2 <br>";
+            // echo "Loop 2 <br>";
 
-            for($i = 0; $i < 14; $i++){
+            for($i = 0; $i < 13; $i++){
 
                 $soma2 += intval($codigo[$i]) * $mult2[$i];
-                echo $codigo[$i];
+                //echo $codigo[$i];
             }
 
-            echo "<br>";
+            // echo "<br>";
 
-            echo "3° Código dentro do método: $codigo <br>";
+            // echo "3° Código dentro do método: $codigo <br>";
 
             $mod2 = 11 - ($soma2 % 11);
 
-            echo "Módulo 2 = $mod2 <br>";
+            // echo "Módulo 2 = $mod2 <br>";
 
             if($mod2 < 2 || $mod2 >= 10){
 
                 $mod2 = 0;
             }
 
-            for($i = 0; $i < 14; $i++){
+            // for($i = 0; $i < 14; $i++){
 
-                echo "Posicao $i: " . $codigo[$i] . "<br>";
+            //     echo "Posicao $i: " . $codigo[$i] . "<br>";
 
 
-            }
+            // }
 
             if($mod1 == intval($codigo[12])){
 
@@ -248,9 +252,11 @@ class CodigoValido{
     
             if($primeiro_digito == true && $segundo_digito == true){
 
-                return true;
+                //echo "OS DOIS ÚLTIMOS DIGITOS BATERAM!!! <br><br>";
+                return $codigo;
 
             } else {
+                //echo "OS DOIS ÚLTIMOS DIGITOS NÃO BATERAM!!! <br><br>";
 
                 return false;
 
@@ -301,7 +307,7 @@ class CodigoValido{
 
                 //echo "O ÚLTIMO DIGITO BATÉU!\n";
 
-                return false;
+                return $codigo;
             }
 
 

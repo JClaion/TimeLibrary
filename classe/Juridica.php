@@ -1,5 +1,10 @@
 <?php
+
 namespace classe;
+
+
+require_once "../utils/DB.php";
+use utils\DB;
 
     class Juridica extends Usuario{
 
@@ -9,7 +14,7 @@ namespace classe;
         public static function pegarTodos() {
 
             $banco = DB::getInstance();
-    
+            
             return $banco->select("*", "juridica"); // MySQL object
         }
     }

@@ -4,8 +4,6 @@ session_start();
 
 require "../../utils/Notificacao.php";
 
-use utils\Notificacao;
-
 $pageTitle = "Login";
 $additionalLinks = [
     "../../assets/public/bootstrap-5.3.3-dist/css/bootstrap.css",
@@ -22,20 +20,41 @@ $additionalScriptsFooter = [
 
 include "../../views/parts/header.php";
 
+    if(isset($_SESSION["email_recuperacao"])){
+
+        if($_SESSION["email_recuperacao"] == false){
+
+            echo "<h1>O seu e-mail não foi encontrado no banco de dados</h1>";
+            unset($_SESSION["email_recuperacao"]);
+
+        }elseif($_SESSION["email_recuperacao"] == true){
+
+            echo "<h1>Verifique a caixa de entrada ou spam do seu e-mail.</h1>";
+            unset($_SESSION["email_recuperacao"]);
+
+        }
+    }
+
+    if(isset($_SESSION["email_cadastro"])){
+        
+        if($_SESSION["email_cadastro"] == true){
+
+            echo "<h1>Um e-mail foi enviado para o seu e-mail, verifique lá para confirmar a criação de sua conta.</h1>";
+            unset($_SESSION["email_cadastro"]);
+
+        }elseif($_SESSION["email_cadastro"] == false){
+
+            echo "<h1>Houve algum erro no cadastro de sua conta..</h1>";
+            unset($_SESSION["email_cadastro"]);
+        }
+    }
+
 
 
 ?>
 
 <div class="container-fluid h-100">
     <div class="row h-100">
-
-      <!-- Quadrado de aviso no meio -->
-      <?php
-
-      $not = new Notificacao();
-      echo $not->mostrarErro("Testando");
-      
-      ?>
 
         <!-- Div da Imagem, deu trabalho. -->
         <div class="col-md-7 p-0">
@@ -75,7 +94,7 @@ include "../../views/parts/header.php";
                         <a href="recuperacao_senha.php">Esqueci minha senha</a> <!--Coloquei pra testar, calma, sem neurose -->
                     </div>
 
-                    <button type="submit" class="btn btn-outline-primary w-100">Logar-se</button>
+                    <input type="submit" class="btn btn-outline-primary w-100" value = "Logar-se">
 
                     <div class="mt-3 text-center">
                         <p>Não está cadastrado? <a href="cadastro.php">Cadastrar</a></p>
